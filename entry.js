@@ -1,4 +1,3 @@
-var React = require('react')
 import React from 'react';
 import Router from 'react-router';
 import Routes from './Routes.jsx';
