@@ -75,11 +75,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _RoutesJsx2 = _interopRequireDefault(_RoutesJsx);
 
-	var React = __webpack_require__(1);
+	if (typeof document !== 'undefined') {
+	  var initialProps = JSON.parse(document.getElementById('initial-props').innerHTML);
+	  _reactRouter2['default'].run(_RoutesJsx2['default'], _reactRouter2['default'].HistoryLocation, function (Handler) {
+	    _react2['default'].render(_react2['default'].createElement(Handler, initialProps), document);
+	  });
+	}
 
 	function render(locals, callback) {
 	  _reactRouter2['default'].run(_RoutesJsx2['default'], locals.path, function (Handler) {
-	    var html = _react2['default'].renderToStaticMarkup(_react2['default'].createElement(Handler, locals));
+	    var html = _react2['default'].renderToString(_react2['default'].createElement(Handler, locals));
 	    callback(null, '<!DOCTYPE html>' + html);
 	  });
 	}
@@ -23596,11 +23601,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _componentsRootJsx2 = _interopRequireDefault(_componentsRootJsx);
 
-	var _componentsIndexJsx = __webpack_require__(198);
+	var _componentsIndexJsx = __webpack_require__(199);
 
 	var _componentsIndexJsx2 = _interopRequireDefault(_componentsIndexJsx);
 
-	var _componentsAboutJsx = __webpack_require__(199);
+	var _componentsAboutJsx = __webpack_require__(200);
 
 	var _componentsAboutJsx2 = _interopRequireDefault(_componentsAboutJsx);
 
@@ -23644,6 +23649,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
+	var _HeaderJsx = __webpack_require__(198);
+
+	var _HeaderJsx2 = _interopRequireDefault(_HeaderJsx);
+
 	var RouteHandler = _reactRouter2['default'].RouteHandler;
 
 	var Root = (function (_React$Component) {
@@ -23660,6 +23669,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Root, [{
 	    key: 'render',
 	    value: function render() {
+	      var initialProps = {
+	        __html: safeStringify(this.props)
+	      };
+
+	      var css = {
+	        __html: this.props.css
+	      };
+	      console.log(this.props);
 	      return _react2['default'].createElement(
 	        'html',
 	        null,
@@ -23670,12 +23687,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            'title',
 	            null,
 	            this.props.title
-	          )
+	          ),
+	          _react2['default'].createElement('style', { dangerouslySetInnerHTML: css })
 	        ),
 	        _react2['default'].createElement(
 	          'body',
-	          null,
-	          _react2['default'].createElement(RouteHandler, this.props)
+	          { className: 'p2' },
+	          _react2['default'].createElement(_HeaderJsx2['default'], null),
+	          _react2['default'].createElement(RouteHandler, this.props),
+	          _react2['default'].createElement('script', {
+	            id: 'initial-props',
+	            type: 'application/json',
+	            dangerouslySetInnerHTML: initialProps }),
+	          _react2['default'].createElement('script', { src: 'bundle.js' })
 	        )
 	      );
 	    }
@@ -23685,10 +23709,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(_react2['default'].Component);
 
 	exports['default'] = Root;
+
+	function safeStringify(obj) {
+	  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--');
+	}
 	module.exports = exports['default'];
 
 /***/ },
 /* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(157);
+
+	var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+	var Link = _reactRouter2['default'].Link;
+
+	var Header = (function (_React$Component) {
+	  function Header() {
+	    _classCallCheck(this, Header);
+
+	    if (_React$Component != null) {
+	      _React$Component.apply(this, arguments);
+	    }
+	  }
+
+	  _inherits(Header, _React$Component);
+
+	  _createClass(Header, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2['default'].createElement(
+	        'header',
+	        null,
+	        _react2['default'].createElement(
+	          Link,
+	          { to: '/' },
+	          'Index'
+	        ),
+	        _react2['default'].createElement(
+	          Link,
+	          { to: '/about' },
+	          'About'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Header;
+	})(_react2['default'].Component);
+
+	exports['default'] = Header;
+	module.exports = exports['default'];
+
+/***/ },
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23738,7 +23831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
